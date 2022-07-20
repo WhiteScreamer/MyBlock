@@ -2,11 +2,11 @@
 
 namespace MyBlock.BL.AssemblyLines.File
 {
-    internal interface IAssamblyTableFromFile : IAssamblyTable
+    internal interface IAssamblyTable : IBaseAssamblyTable
     {
         Match MatchStringLine { get; set; }
     }
-    internal class AssamblyTableFromFile : AssamblyTable, IAssamblyTableFromFile
+    internal class AssamblyTable : AssemblyLines.BaseAssamblyTable, IAssamblyTable
     {
         public Match MatchStringLine { get; set; }
     }

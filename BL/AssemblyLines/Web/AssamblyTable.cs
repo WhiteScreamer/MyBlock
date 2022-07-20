@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MyBlock.BL.AssemblyLines.Web
 {
-    internal interface IAssamblyTableFromWeb : IAssamblyTable
+    internal interface IAssamblyTable : IBaseAssamblyTable
     {
         #region Outer params                 
         IEnumerable<string> ForbiddenHosts { get; set; }
@@ -14,7 +14,7 @@ namespace MyBlock.BL.AssemblyLines.Web
         Uri Uri { get; set; }
         string RootUrl { get; set; }
     }
-    internal class AssamblyTableFromWeb : AssamblyTable, IAssamblyTableFromWeb
+    internal class AssamblyTable : BaseAssamblyTable, IAssamblyTable
     {        
         public string PageHtml { get; set; }
         public string FaviconUrl { get; set; }

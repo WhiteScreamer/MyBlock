@@ -5,30 +5,38 @@ using System.Threading.Tasks;
 
 namespace MyBlock.BL.AssemblyLines
 {
-    internal interface IAssemblyLine
+    internal interface IBaseAssemblyLine
     {
         event EventHandler<ISiteRecord> BuildingComplete;
         void StartAssembly();
-        void InitTable();
     }
 
-    internal abstract class AssemblyLine
+    internal abstract class BaseAssemblyLine<T> where T : IBaseAssamblyTable
     {
-        protected IAssamblyTable _table;
+        static T _table;
         protected List<IBuilder> Builders { get; init; } = new List<IBuilder>();
         protected abstract void InitBuilders();
-        public AssemblyLine()
+        protected abstract T CreateTable();
+        protected T Table
+        {
+            get
+            {
+                if (_table == null) _table = CreateTable();
+                return _table;
+            }
+        }
+        public BaseAssemblyLine()
         {
             InitBuilders();
-        }
-        public abstract void InitTable();
+        }        
         public void StartAssembly()
         {
             foreach (var builder in Builders)
                 builder.Build(_table);
             BuildingComplete.Invoke(this, _table.Result);
+            _table = default(T);
         }
         public event EventHandler<ISiteRecord> BuildingComplete;
     }
-      
+
 }

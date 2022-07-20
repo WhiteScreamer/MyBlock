@@ -1,5 +1,6 @@
 ﻿using MyBlock.BL;
 using MyBlock.BL.AssemblyLines;
+using MyBlock.DateFormFolder;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,20 +11,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MyBlock
+namespace MyBlock.MainFormFolder
 {
     public partial class MainForm : Form
     {
         private IPresenter Presenter { get; set; } = new Presenter();
-        #region Auxiliary
-        private bool Valid(Control control, IValidationInfo validateInfo)
-        {
-            errorProvider.Clear();
-            if (validateInfo.IsValid) return true;
-            errorProvider.SetError(control, validateInfo.Message);
-            MessageBox.Show(validateInfo.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return false;
-        }
+        #region Auxiliary        
 
         private IEnumerable<ListViewItem> GetItems(ListView list, bool selectedOnly) =>
             selectedOnly ? list.SelectedItems.Cast<ListViewItem>().ToArray() : list.Items.Cast<ListViewItem>().ToArray();
@@ -43,13 +36,8 @@ namespace MyBlock
             InitializeComponent();
             Presenter.AssemblyFromWebLine.BuildingComplete += AssamblyFromWebLine_BuildingComplete;
             Presenter.AssemblyFromFileLine.BuildingComplete += AssamblyFromWebLine_BuildingComplete;
-            if (!Presenter.RoleCheck.CheckAdministratrRole())
-            {
-                MessageBox.Show("Run this program 'as Administrator'!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                if (Application.MessageLoop) Application.Exit();
-                else Environment.Exit(1);
-            }
-            Presenter.LoadFromFile();
+            if (!myErrorProvider.ValidatePipe(Presenter.RoleCheck.CheckAdministratrRole())) Program.Exit();
+            Presenter.LoadFromFile();            
         }
         #region Event Handlers
         private void AssamblyFromWebLine_BuildingComplete(object? sender, ISiteRecord record)
@@ -62,12 +50,11 @@ namespace MyBlock
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             textBoxUrl.Text = textBoxUrl.Text.Trim();
-            Presenter.AssemblyFromWebLine.InitTable();
-            if (!Valid(textBoxUrl, Presenter.AssemblyFromWebLine.SetUrl(
+            if (!myErrorProvider.ValidatePipe(textBoxUrl, Presenter.AssemblyFromWebLine.SetUrl(
                 textBoxUrl.Text, Presenter.ForbiddenList.Select(o => o.SiteModel.Host)))) return;
-            var dateForm = new DateForm() { Presenter = Presenter };
-            if (dateForm.ShowDialog() != DialogResult.OK) return;
             textBoxUrl.Text = "";
+            var dateForm = new DateForm();
+            if (dateForm.ShowDialog() != DialogResult.OK) return;
             Presenter.AssemblyFromWebLine.StartAssembly();
         }
         private void buttonUnForbidden_Click(object sender, EventArgs e)
@@ -104,6 +91,6 @@ namespace MyBlock
                 Presenter.Remove(record);
             }
         }
-        #endregion
+        #endregion       
     }
 }

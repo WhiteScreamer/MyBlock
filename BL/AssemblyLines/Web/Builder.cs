@@ -6,28 +6,28 @@ using System.Text.RegularExpressions;
 
 namespace MyBlock.BL.AssemblyLines.Web
 {
-    internal abstract class BuilderFromWeb
+    internal abstract class Builder
     {
-        protected IAssamblyTableFromWeb WebTable { get; set; }
-        public virtual void Build(IAssamblyTable table)
+        protected IAssamblyTable WebTable { get; set; }
+        public virtual void Build(IBaseAssamblyTable table)
         {
-            WebTable = (IAssamblyTableFromWeb)table;
+            WebTable = (IAssamblyTable)table;
         }
     }
 
-    internal class BuilderHost : BuilderFromWeb, IBuilder
+    internal class BuilderHost : Builder, IBuilder
     {
-        public override void Build(IAssamblyTable table)
+        public override void Build(IBaseAssamblyTable table)
         {
             base.Build(table);
             WebTable.Result.SiteModel.Host = WebTable.Uri.Host;
             WebTable.RootUrl = $"{WebTable.Uri.Scheme}://{WebTable.Uri.Host}";
         }
     }    
-    internal class BuilderHtml : BuilderFromWeb, IBuilder
+    internal class BuilderHtml : Builder, IBuilder
     {
         
-        public override void Build(IAssamblyTable table)
+        public override void Build(IBaseAssamblyTable table)
         {
             base.Build(table);
             try
@@ -43,10 +43,10 @@ namespace MyBlock.BL.AssemblyLines.Web
             }
         }
     }
-    internal class BuilderName : BuilderFromWeb, IBuilder
+    internal class BuilderName : Builder, IBuilder
     {
         ICache Cache = new CacheName();
-        public override void Build(IAssamblyTable table)
+        public override void Build(IBaseAssamblyTable table)
         {
             base.Build(table);
             if (string.IsNullOrEmpty(WebTable.PageHtml))
@@ -59,18 +59,18 @@ namespace MyBlock.BL.AssemblyLines.Web
             Cache.Save(WebTable.Result.SiteModel);
         }
     }
-    internal class BuilderFaviconUrl : BuilderFromWeb, IBuilder
+    internal class BuilderFaviconUrl : Builder, IBuilder
     {
-        public override void Build(IAssamblyTable table)
+        public override void Build(IBaseAssamblyTable table)
         {
             base.Build(table);
             WebTable.FaviconUrl = $"{WebTable.RootUrl}/favicon.ico";
         }
     }
-    internal class BuilderLoadFavicon : BuilderFromWeb, IBuilder
+    internal class BuilderLoadFavicon : Builder, IBuilder
     {
         ICache Cache = new CacheIcon();
-        public override void Build(IAssamblyTable table)
+        public override void Build(IBaseAssamblyTable table)
         {
             base.Build(table);
             try

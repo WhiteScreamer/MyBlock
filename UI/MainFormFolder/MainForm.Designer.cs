@@ -1,4 +1,4 @@
-﻿namespace MyBlock
+﻿namespace MyBlock.MainFormFolder
 {
     partial class MainForm
     {
@@ -55,12 +55,12 @@
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.buttonRemove = new System.Windows.Forms.Button();
             this.imageListButtons = new System.Windows.Forms.ImageList(this.components);
-            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.myErrorProvider = new MyBlock.UI.MyErrorProvider();
             buttonUnForbidden = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.myErrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonUnForbidden
@@ -291,15 +291,12 @@
             // 
             this.buttonRemove.Dock = System.Windows.Forms.DockStyle.Right;
             this.buttonRemove.FlatAppearance.BorderSize = 0;
-            this.buttonRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonRemove.ImageIndex = 0;
-            this.buttonRemove.ImageList = this.imageListButtons;
-            this.buttonRemove.Location = new System.Drawing.Point(1236, 0);
+            this.buttonRemove.Location = new System.Drawing.Point(1174, 0);
             this.buttonRemove.Margin = new System.Windows.Forms.Padding(0);
             this.buttonRemove.Name = "buttonRemove";
-            this.buttonRemove.Size = new System.Drawing.Size(30, 30);
+            this.buttonRemove.Size = new System.Drawing.Size(92, 30);
             this.buttonRemove.TabIndex = 14;
-            this.buttonRemove.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.buttonRemove.Text = "Remove";
             this.buttonRemove.UseVisualStyleBackColor = true;
             this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
@@ -310,9 +307,9 @@
             this.imageListButtons.TransparentColor = System.Drawing.Color.Transparent;
             this.imageListButtons.Images.SetKeyName(0, "icons8-remove-48.png");
             // 
-            // errorProvider
+            // myErrorProvider
             // 
-            this.errorProvider.ContainerControl = this;
+            this.myErrorProvider.ContainerControl = this;
             // 
             // MainForm
             // 
@@ -326,13 +323,13 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "My Block Url";
+            this.Text = "My Block Url";            
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.myErrorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -357,12 +354,12 @@
         private System.Windows.Forms.Label labelUrl;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
-        private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.ColumnHeader Host;
         private System.Windows.Forms.ColumnHeader IconRight;
         private System.Windows.Forms.ColumnHeader CaptionRight;
         private System.Windows.Forms.ColumnHeader HostRight;
         private System.Windows.Forms.ImageList imageListButtons;
-        private System.Windows.Forms.Button buttonRemove;
+        protected internal System.Windows.Forms.Button buttonRemove;
+        private UI.MyErrorProvider myErrorProvider;
     }
 }

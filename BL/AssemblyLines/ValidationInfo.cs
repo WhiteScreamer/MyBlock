@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyBlock.BL
 {
-    internal interface IValidationInfo
+    public interface IValidationInfo
     {
         bool IsValid { get; set; }
         string Message { get; set; }

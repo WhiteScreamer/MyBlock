@@ -1,4 +1,4 @@
-﻿namespace MyBlock
+﻿namespace MyBlock.DateFormFolder
 {
     partial class DateForm
     {
@@ -38,7 +38,9 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOk = new System.Windows.Forms.Button();
+            this.myErrorProvider = new MyBlock.UI.MyErrorProvider();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.myErrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // radioButtonTo
@@ -84,6 +86,7 @@
             this.dateTo.Name = "dateTo";
             this.dateTo.Size = new System.Drawing.Size(154, 30);
             this.dateTo.TabIndex = 16;
+            this.dateTo.Value = new System.DateTime(2022, 7, 7, 15, 51, 0, 0);
             // 
             // dateFromToFrom
             // 
@@ -92,6 +95,7 @@
             this.dateFromToFrom.Name = "dateFromToFrom";
             this.dateFromToFrom.Size = new System.Drawing.Size(154, 30);
             this.dateFromToFrom.TabIndex = 17;
+            this.dateFromToFrom.Value = new System.DateTime(2022, 7, 7, 15, 51, 0, 0);
             // 
             // dateFromToTo
             // 
@@ -100,6 +104,7 @@
             this.dateFromToTo.Name = "dateFromToTo";
             this.dateFromToTo.Size = new System.Drawing.Size(154, 30);
             this.dateFromToTo.TabIndex = 18;
+            this.dateFromToTo.Value = new System.DateTime(2022, 7, 7, 15, 51, 0, 0);
             // 
             // label1
             // 
@@ -154,6 +159,11 @@
             this.buttonOk.TabIndex = 22;
             this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
+            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
+            // 
+            // myErrorProvider
+            // 
+            this.myErrorProvider.ContainerControl = this;
             // 
             // DateForm
             // 
@@ -171,6 +181,7 @@
             this.Text = "Set Forbidden Time";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.myErrorProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -186,5 +197,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOk;
+        private UI.MyErrorProvider myErrorProvider;
     }
 }

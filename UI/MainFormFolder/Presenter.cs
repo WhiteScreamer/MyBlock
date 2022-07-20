@@ -1,4 +1,5 @@
-﻿using MyBlock.BL.AssemblyLines;
+﻿using MyBlock.BL;
+using MyBlock.BL.AssemblyLines;
 using MyBlock.BL.AssemblyLines.File;
 using MyBlock.BL.AssemblyLines.Web;
 using System;
@@ -7,17 +8,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyBlock.BL
+namespace MyBlock.MainFormFolder
 {
-    public interface IPresenter
+    internal interface IPresenter
     {
-        IAssemblyFromWebLine AssemblyFromWebLine { get; set; }
-        IAssemblyFromFileLine AssemblyFromFileLine { get; set; }
+        BL.AssemblyLines.Web.IAssemblyLine AssemblyFromWebLine { get; init; }
+        BL.AssemblyLines.File.IAssemblyLine AssemblyFromFileLine { get; init; }
         List<ISiteRecord> ForbiddenList { get; }
         List<ISiteRecord> AllowList { get; }
-        IRoleCheck RoleCheck { get; }
-        void LoadFromFile();        
-        void MoveItems(IEnumerable<ISiteRecord> records, bool forbid);    
+        IRoleCheck RoleCheck { get; init; }
+        void LoadFromFile();
+        void MoveItems(IEnumerable<ISiteRecord> records, bool forbid);
         void Remove(ISiteRecord record);
     }
 
@@ -36,7 +37,7 @@ namespace MyBlock.BL
         {
             if (record.IsForbidden) ForbiddenList.Add(record);
             else AllowList.Add(record);
-        }       
+        }
         private IEnumerable<ISiteRecord> MoveItems(List<ISiteRecord> source, List<ISiteRecord> target, IEnumerable<ISiteRecord> items)
         {
             foreach (var item in items)
@@ -53,17 +54,17 @@ namespace MyBlock.BL
 
 
         public List<ISiteRecord> ForbiddenList { get; init; } = new List<ISiteRecord>();
-        public List<ISiteRecord> AllowList { get; init; } = new List<ISiteRecord>();
-        public IRoleCheck RoleCheck { get; init; } = new RoleCheck();        
-        public IAssemblyFromWebLine AssemblyFromWebLine { get; set; } = new AssemblyFromWebLine();
-        public IAssemblyFromFileLine AssemblyFromFileLine { get; set; } = new AssemblyFromFileLine();
+        public List<ISiteRecord> AllowList { get; init; } = new List<ISiteRecord>();        
+        public BL.AssemblyLines.Web.IAssemblyLine AssemblyFromWebLine { get; init; } = new BL.AssemblyLines.Web.AssemblyLine();
+        public BL.AssemblyLines.File.IAssemblyLine AssemblyFromFileLine { get; init; } = new BL.AssemblyLines.File.AssemblyLine();
+        public IRoleCheck RoleCheck { get; init; } = new RoleCheck();
         public void LoadFromFile()
         {
             foreach (var line in FileMaster.GetFileLines())
-            {                
+            {
                 if (!AssemblyFromFileLine.SetStringLine(line)) continue;
                 AssemblyFromFileLine.StartAssembly();
-            }            
+            }
         }
 
         public void MoveItems(IEnumerable<ISiteRecord> records, bool forbid)

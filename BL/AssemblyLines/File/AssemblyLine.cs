@@ -2,32 +2,27 @@
 
 namespace MyBlock.BL.AssemblyLines.File
 {
-    internal interface IAssemblyFromFileLine : IAssemblyLine
+    internal interface IAssemblyLine : IBaseAssemblyLine
     {
         bool SetStringLine(string s);
     }
-    internal class AssemblyFromFileLine : AssemblyLine, IAssemblyFromFileLine
+    internal class AssemblyLine : BaseAssemblyLine<IAssamblyTable>, IAssemblyLine
     {
-        private ISettings Settings { get; init; } = new Settings();
-        protected IAssamblyTableFromFile FileTable => (IAssamblyTableFromFile)_table;
+        private ISettings Settings { get; init; } = new Settings();        
         protected override void InitBuilders()
         {
             Builders.AddRange(new IBuilder[] { new BuilderSite(), new BuilderName(), new BuilderFavIcon()});
-        }
-        public override void InitTable()
-        {
-            _table = new AssamblyTableFromFile();
-        }
+        }       
 
         public bool SetStringLine(string line)
         {
             var template = Settings.GetFilelineTemplate("(#?)", "(.*?)", "(.*?)", "(.*?)", "(.*?)");
             var match = Regex.Match(line, template);
-            if (!match.Success) return false;
-            InitTable();
-            FileTable.MatchStringLine = match;
+            if (!match.Success) return false;           
+            Table.MatchStringLine = match;
             return true;
         }
 
+        protected override IAssamblyTable CreateTable() => new AssamblyTable();
     }
 }

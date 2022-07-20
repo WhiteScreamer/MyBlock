@@ -1,3 +1,4 @@
+using MyBlock.MainFormFolder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,12 @@ namespace MyBlock
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
+        }
+
+        public static void Exit()
+        {
+            if (Application.MessageLoop) Application.Exit();
+            else Environment.Exit(1);
         }
     }
 }

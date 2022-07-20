@@ -13,6 +13,6 @@ namespace MyBlock.BL.AssemblyLines
 {
     internal interface IBuilder
     {
-        void Build(IAssamblyTable table);
+        void Build(IBaseAssamblyTable table);
     }    
 }

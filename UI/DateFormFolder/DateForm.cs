@@ -1,5 +1,4 @@
-﻿using MyBlock.BL;
-using MyBlock.BL.AssemblyLines;
+﻿using MyBlock.BL.AssemblyLines;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,10 +9,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MyBlock
+namespace MyBlock.DateFormFolder
 {
     public partial class DateForm : Form
     {
+        private Control CheckedControl
+        {
+            get
+            {
+                if (radioButtonTo.Checked) return radioButtonTo;
+                return radioButtonFromTo;
+            }
+        }
+
         private ForbiddenDateModes ForbiddenDateMode
         {
             get
@@ -39,12 +47,17 @@ namespace MyBlock
             get => radioButtonFromTo.Checked ? dateFromToFrom.Value : radioButtonTo.Checked ? dateTo.Value : null;
             set => dateTo.Value = dateFromToTo.Value = value ?? dateFromToTo.Value;
         }
-        public IPresenter Presenter { get; set; }
+        private IPresenter Presenter { get; set; } = new Presenter();
         public DateForm()
         {
             InitializeComponent();
             FromDate = DateTime.Now;
             ToDate = DateTime.Now.AddHours(1);
+        }
+
+        private void buttonOk_Click(object sender, EventArgs e)
+        {
+            if (myErrorProvider.ValidatePipe(CheckedControl, Presenter.AssemblyLine.SetDateRange(ForbiddenDateMode, FromDate, ToDate))) return;
         }
     }
 }
